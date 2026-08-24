@@ -6,7 +6,7 @@ from datetime import date
 KEYWORDS = ["residential proxy"]
 
 # Сколько видео брать по каждому запросу
-LIMIT_PER_KEYWORD = 20
+LIMIT_PER_KEYWORD = 500
 
 rows = []
 for kw in KEYWORDS:
