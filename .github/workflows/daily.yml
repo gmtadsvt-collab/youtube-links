@@ -1,0 +1,24 @@
+name: Ежедневный сбор ссылок YouTube
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC = 09:00 по Москве
+  workflow_dispatch:        # позволяет запустить вручную кнопкой
+
+permissions:
+  issues: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install scrapetube
+      - run: python scraper.py
+      - name: Отправить результат
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue create --title "Ссылки YouTube за $(date +%F)" --body-file body.md
